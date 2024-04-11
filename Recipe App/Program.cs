@@ -25,8 +25,9 @@ namespace Recipe_App
                 int numIngredients = Convert.ToInt32(Console.ReadLine());
 
                 for (int i = 0; i < numIngredients; i++)
-                {
-                    recipe.addIngredient();
+                {   
+                    int count = i + 1;
+                    recipe.addIngredient(count);
                 }
 
                 Console.WriteLine("Enter the number of steps within your recipe: ");
@@ -93,20 +94,20 @@ namespace Recipe_App
         public ArrayList originalQuantities = new ArrayList();
 
         // Constructor that allows the user to add ingredients: name, quantity, and unit of measurement.
-        public void addIngredient()
+        public void addIngredient(int number)
         {
             // Prompt the user to enter the name of the ingredient
-            Console.WriteLine("Enter the name of the ingredient: ");
+            Console.WriteLine("Enter the name of ingredient #" + number + ": ");
             ingredientsName.Add(Console.ReadLine());
 
             // Prompt the user to enter the quantity of the ingredient
-            Console.WriteLine("Enter the quantity of the ingredient: ");
+            Console.WriteLine("Enter the quantity of ingredient #" + number + ": ");
             double quantity = Convert.ToDouble(Console.ReadLine());
             ingredientsAmount.Add(quantity);
             originalQuantities.Add(quantity);
 
             // Prompt the user to enter the unit of measurement for the ingredient
-            Console.WriteLine("Enter the unit of measurement: ");
+            Console.WriteLine("Enter the unit of measurement for ingredient #" + number + ": ");
             ingredientsUnit.Add(Console.ReadLine());
         }
 
