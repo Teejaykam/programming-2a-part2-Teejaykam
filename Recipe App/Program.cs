@@ -64,6 +64,18 @@ namespace Recipe_App
                         Console.WriteLine("Invalid option. Please try again.");
                         break;
                 }
+
+                Console.WriteLine("If you wish to create a new recipe, press 1. If you wish to exit, press 2.");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 2)
+                {
+                    clear = true;
+                }
+                else
+                {
+                    recipe.ClearData();
+                    clear = false;
+                }
             }
         }
     }
