@@ -56,5 +56,66 @@ namespace Recipe_App
             steps.Add(Console.ReadLine());
         }
 
+        public void printRecipe()
+        {
+            // Print the ingredients
+            Console.WriteLine("Ingredients: ");
+            for (int i = 0; i < ingredientsName.Count; i++)
+            {
+                Console.WriteLine("#" +ingredientsAmount[i] + " " + ingredientsUnit[i] + " " + ingredientsName[i]);
+            }
+
+            // Print the steps
+            Console.WriteLine("Steps: ");
+            for (int i = 0; i < steps.Count; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + steps[i]);
+            }
+        }
+
+        public void convertUnits(double scaleFactor)
+        {
+            // Prompt the user to enter the unit of measurement they want to convert to
+            Console.WriteLine("Enter the unit of measurement you want to scale  to: ");
+
+            // Convert the units
+            for (int i = 0; i < ingredientsAmount.Count; i++)
+            {
+                if (ingredientsAmount[i] != null)
+                {
+                    double? ingredientValue = ingredientsAmount[i] as double?;
+                    if (ingredientValue != null)
+                    {
+                        double scaledQuantity = ingredientValue.Value * scaleFactor;
+                    }
+                    else
+                    {
+                        // Handle the case where ingredientsAmount[i] is not a valid double value
+                        Console.WriteLine("Error: ingredientsAmount[i] is not a valid double value");
+                        break;
+                    }
+                }
+                else
+                {
+                    // Handle the case where ingredientsAmount[i] is null
+                    Console.WriteLine("Error: You don't have any ingredients");
+                    break;
+                }
+            }
+
+            Console.WriteLine("The recipe has been scaled: ");
+            printRecipe();
+            Console.WriteLine("Do you wish to reset the quantities to their original values? (y/n)");
+            string answer = Console.ReadLine();
+            if (answer == "y")
+            {
+                resetQuantities();
+            }
+        }
+
+        private void resetQuantities()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
