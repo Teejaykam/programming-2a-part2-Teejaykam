@@ -47,5 +47,14 @@ namespace Recipe_App
             ingredientsUnit.Add(Console.ReadLine());
         }
 
+
+        // Constructor that allows the user to add steps.
+        public void addStep()
+        {
+            // Prompt the user to describe the step
+            Console.WriteLine("Describe this step: ");
+            steps.Add(Console.ReadLine());
+        }
+
     }
 }
