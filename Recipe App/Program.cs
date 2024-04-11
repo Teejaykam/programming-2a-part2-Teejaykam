@@ -115,7 +115,11 @@ namespace Recipe_App
 
         private void resetQuantities()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("The recipe has been reset: ");
+            ingredientsAmount.Clear();
+            ingredientsAmount.AddRange(originalQuantities);
+            Console.WriteLine("The Original Recipe: ");
+            printRecipe();
         }
     }
 }
