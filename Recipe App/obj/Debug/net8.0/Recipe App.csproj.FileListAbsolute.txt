@@ -1,0 +1,15 @@
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\bin\Debug\net8.0\Recipe App.exe
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\bin\Debug\net8.0\Recipe App.deps.json
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\bin\Debug\net8.0\Recipe App.runtimeconfig.json
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\bin\Debug\net8.0\Recipe App.dll
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\bin\Debug\net8.0\Recipe App.pdb
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.AssemblyInfoInputs.cache
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.AssemblyInfo.cs
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.csproj.CoreCompileInputs.cache
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.sourcelink.json
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.dll
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\refint\Recipe App.dll
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.pdb
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\Recipe App.genruntimeconfig.cache
+C:\Users\pre\OneDrive\UNI\Year 2\Programming 2b\poe\programming-2a-part1-new-Teejaykam\Recipe App\obj\Debug\net8.0\ref\Recipe App.dll
