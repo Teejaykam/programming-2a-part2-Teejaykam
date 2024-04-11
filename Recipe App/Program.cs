@@ -23,6 +23,13 @@ namespace Recipe_App
 
                 Console.WriteLine("Enter the number of ingredients within your recipe: ");
                 int numIngredients = Convert.ToInt32(Console.ReadLine());
+
+                for (int i = 0; i < numIngredients; i++)
+                {
+                    recipe.addIngredient();
+                }
+
+
             }
         }
     }
