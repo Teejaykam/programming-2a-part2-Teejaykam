@@ -121,5 +121,14 @@ namespace Recipe_App
             Console.WriteLine("The Original Recipe: ");
             printRecipe();
         }
+
+        public void ClearData()
+        {
+            ingredientsName.Clear();
+            ingredientsAmount.Clear();
+            ingredientsUnit.Clear();
+            steps.Clear();
+            originalQuantities.Clear();
+        }
     }
 }
