@@ -37,6 +37,33 @@ namespace Recipe_App
                     Console.WriteLine("Step " + (i + 1) + ": ");
                     recipe.addStep();
                 }
+
+                recipe.printRecipe();
+                Console.WriteLine("See the recipe at a different scale: ");
+                Console.WriteLine("Enter the number corresponding with the scale value you require: \n" +
+                    "1: A factor of 0.5 (half)\n" +
+                    "2: A factor of 2 (double)\n" +
+                    "3: A factor of 3 (triple)\n" +
+                    "4: Return to the main menu");
+                int option = Convert.ToInt32(Console.ReadLine());
+                switch(option)
+                {
+                    case 1:
+                        recipe.convertUnits(0.5);
+                        break;
+                    case 2:
+                        recipe.convertUnits(2);
+                        break;
+                    case 3:
+                        recipe.convertUnits(3);
+                        break;
+                    case 4:
+                        clear = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
             }
         }
     }
