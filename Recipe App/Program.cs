@@ -29,7 +29,14 @@ namespace Recipe_App
                     recipe.addIngredient();
                 }
 
+                Console.WriteLine("Enter the number of steps within your recipe: ");
+                int numSteps = Convert.ToInt32(Console.ReadLine());
 
+                for (int i = 0; i < numSteps; i++)
+                {
+                    Console.WriteLine("Step " + (i + 1) + ": ");
+                    recipe.addStep();
+                }
             }
         }
     }
