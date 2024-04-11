@@ -15,6 +15,15 @@ namespace Recipe_App
         {
             Recipe recipe = new Recipe();
             bool clear = false;
+
+            while(clear == false)
+            {
+                Console.WriteLine("Welcome to Teejay's Recipe App!");
+                Console.WriteLine("================================ New Recipe ================================");
+
+                Console.WriteLine("Enter the number of ingredients within your recipe: ");
+                int numIngredients = Convert.ToInt32(Console.ReadLine());
+            }
         }
     }
 
