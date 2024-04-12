@@ -333,32 +333,55 @@ namespace Recipe_App
             }
             else
             {
-                Console.WriteLine("The recipe has been reset: ");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("============================================================================");
-                Console.ResetColor();
-                // Resetting the values in the ArrayList
-                ingredientsAmount.Clear();
-                // Add the original quantities back to the ArrayList
-                ingredientsAmount.AddRange(originalQuantities);
-                Console.WriteLine("The Original Recipe: ");
-                // Print the original recipe
-                printRecipe();
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("============================================================================");
-                Console.ResetColor();
+                Console.WriteLine("Are you sure you want to reset the quantities? (y/n) ");
+                string answer = Console.ReadLine();
+                if (answer == "y")
+                {
+                    // Reset the quantities
+                    Console.WriteLine("The recipe has been reset: ");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("============================================================================");
+                    Console.ResetColor();
+                    // Resetting the values in the ArrayList
+                    ingredientsAmount.Clear();
+                    // Add the original quantities back to the ArrayList
+                    ingredientsAmount.AddRange(originalQuantities);
+                    Console.WriteLine("The Original Recipe: ");
+                    // Print the original recipe
+                    printRecipe();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("============================================================================");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
         // Clear the data
         public void ClearData()
         {
-            // Clearing the data in the ArrayLists
-            ingredientsName.Clear();
-            ingredientsAmount.Clear();
-            ingredientsUnit.Clear();
-            steps.Clear();
-            originalQuantities.Clear();
-            
+            Console.WriteLine("Are you sure you want to clear the data? (y/n) ");
+            string answer = Console.ReadLine();
+            if (answer == "y")
+            {
+                // Clear the data
+                Console.WriteLine("The data has been cleared.");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
+                // Clearing the data in the ArrayLists
+                ingredientsName.Clear();
+                ingredientsAmount.Clear();
+                ingredientsUnit.Clear();
+                steps.Clear();
+                originalQuantities.Clear();
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
