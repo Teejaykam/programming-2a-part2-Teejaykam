@@ -11,6 +11,17 @@ GitHub Link: https://github.com/IIEMSA/programming-2a-part1-new-Teejaykam
 # Instructions to run POE Part 1
 To run the code and view the project:
 
-1. Open the solution (Recipe App.sln) file in visual studio
-2. Open the "Program.cs" file within the solution explorer
-3. Once the file has been opened click on the green play button at the top of the program
+Ensure necessary software and tools are installed:
+	- Programming language compiler
+	- Integrated development environment (IDE)
+	- Application dependencies
+Download or clone application source code from a repository like GitHub.
+Open project in IDE and configure settings:
+	- Target platform
+	- Build configuration
+Build application:
+	- Compile source code into executable file or package
+	- Run build script or use MSBuild (Visual Studio)
+Execute application:
+	- Run generated executable file
+	- Use command or script
