@@ -35,8 +35,9 @@ namespace Recipe_App
                     switch (option)
                     {
                         case 1:
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("================================ New Recipe ================================");
-                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.ResetColor();
                             Console.WriteLine("Enter the number of ingredients within your recipe: ");
                             int numIngredients = Convert.ToInt32(Console.ReadLine());
 
@@ -47,61 +48,65 @@ namespace Recipe_App
                             }
                             break;
                         case 2:
-                            Console.WriteLine("Enter the number of steps within your recipe: ");
-                            int numSteps = Convert.ToInt32(Console.ReadLine());
-
-                            for (int i = 0; i < numSteps; i++)
-                            {
-                                Console.WriteLine("Step " + (i + 1) + ": ");
-                                recipe.addStep();
-                            }
-                            break;
-                        case 3:
                             recipe.printRecipe();
                             break;
-                        case 4:
+                        case 3:
                             recipe.convertUnits();
                             break;
+                        case 4:
+                            recipe.resetQuantities();
+                            break;
                         case 5:
-                            recipe.ClearData();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("The recipe has been reset successfuly!" + Console.ResetColor + "\nIf you wish to create a new recipe, press 1. If you wish to exit, press 2.");
+
+                            int choice = Convert.ToInt32(Console.ReadLine());
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("============================================================================");
+                            Console.ResetColor();
+                            if (choice == 2)
+                            {
+                                option = 6;
+                            }
+                            else
+                            {
+                                recipe.ClearData();
+                                option = 0;
+                            }
                             break;
                         default:
-                            Console.WriteLine("Invalid option. Please try again.");
+                            option = 0;
                             break;
                     }
+                    option = 0; //Ensuring the while loop is repeated
                 }
-                
-                
+
+
+
+
+
+
+                option = 0;
 
                 
-
-                
-
-                Console.WriteLine("If you wish to create a new recipe, press 1. If you wish to exit, press 2.");
-                int choice = Convert.ToInt32(Console.ReadLine());
-                if (choice == 2)
-                {
-                    option = 6;
-                }
-                else
-                {
-                    recipe.ClearData();
-                    option = 0;
-                }
             }
             static void menu()
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Welcome to Teejay's Recipe App!", Console.ForegroundColor);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
                 Console.ResetColor();
                 Console.WriteLine("Enter the number of the option you wish to select: ");
-                Console.WriteLine("1. Add an ingredient");
-                Console.WriteLine("2. Add a step");
-                Console.WriteLine("3. Print the recipe");
-                Console.WriteLine("4. Convert units");
+                Console.WriteLine("1. Add recipe information");
+                Console.WriteLine("2. Print the recipe");
+                Console.WriteLine("3. Scale the recipe");
+                Console.WriteLine("4. Reset recipe quantities");
                 Console.WriteLine("5. Clear the recipe");
                 Console.WriteLine("6. Exit");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("============================================================================");
+                Console.ResetColor();
 
                 option = Convert.ToInt32(Console.ReadLine());
             }
@@ -144,7 +149,10 @@ namespace Recipe_App
             Console.WriteLine("Enter the unit of measurement for ingredient #" + number + ": ");
             ingredientsUnit.Add(Console.ReadLine());
 
-            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
+            addStep();
 
         }
 
@@ -152,18 +160,31 @@ namespace Recipe_App
         // Constructor that allows the user to add steps.
         public void addStep()
         {
-            // Prompt the user to describe the step
-            Console.WriteLine("Describe this step: ");
-            steps.Add(Console.ReadLine());
+            Console.WriteLine("Enter the number of steps within your recipe: ");
+            int numSteps = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 0; i < numSteps; i++)
+            {
+                Console.WriteLine("Step " + (i + 1) + ": ");
+                Console.WriteLine("Describe this step: ");
+                steps.Add(Console.ReadLine());
+            }
         }
 
         public void printRecipe()
         {
-            // Print the ingredients
-            Console.WriteLine("Ingredients: ");
-            for (int i = 0; i < ingredientsName.Count; i++)
+            if (ingredientsName.Count == 0)
             {
-                Console.WriteLine("#" +ingredientsAmount[i] + " " + ingredientsUnit[i] + " " + ingredientsName[i]);
+                Console.WriteLine("There are no ingredients in the recipe.");
+                return;
+            }
+            else {
+                // Print the ingredients
+                Console.WriteLine("Ingredients: ");
+                for (int i = 0; i < ingredientsName.Count; i++)
+                {
+                    Console.WriteLine("#" + ingredientsAmount[i] + " " + ingredientsUnit[i] + " " + ingredientsName[i]);
+                }
             }
 
             // Print the steps
@@ -231,9 +252,15 @@ namespace Recipe_App
         public void resetQuantities()
         {
             Console.WriteLine("The recipe has been reset: ");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
             ingredientsAmount.Clear();
             ingredientsAmount.AddRange(originalQuantities);
             Console.WriteLine("The Original Recipe: ");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
             printRecipe();
         }
 
@@ -244,6 +271,7 @@ namespace Recipe_App
             ingredientsUnit.Clear();
             steps.Clear();
             originalQuantities.Clear();
+            
         }
 
         
