@@ -52,6 +52,7 @@ namespace Recipe_App
                                 int count = i + 1;
                                 recipe.addIngredient(count);
                             }
+                            recipe.addStep();
                             break;
                         case 2:
                             // Calling the printRecipe method of the Recipe class.
@@ -103,6 +104,7 @@ namespace Recipe_App
             // Method to display the menu options to the user.
             static void menu()
             {
+                // Changing the text color
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Welcome to Teejay's Recipe App!", Console.ForegroundColor);
                 Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -168,16 +170,7 @@ namespace Recipe_App
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("============================================================================");
             Console.ResetColor();
-            // Adds the steps
-            addStep();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("============================================================================");
-            Console.ResetColor();
-            // Print the recipe
-            printRecipe();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("============================================================================");
-            Console.ResetColor();
+
 
         }
 
@@ -199,6 +192,15 @@ namespace Recipe_App
                 Console.WriteLine("Describe this step: ");
                 steps.Add(Console.ReadLine());
             }
+
+            // Print the recipe
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
+            printRecipe();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
         }
         // Prints the recipe.
         public void printRecipe()
@@ -234,7 +236,7 @@ namespace Recipe_App
             else
             {
                 // Print the steps
-                Console.WriteLine("Steps: ");
+                Console.WriteLine("\nSteps: ");
                 // Loop through the ArrayList and print the steps
                 for (int i = 0; i < steps.Count; i++)
                 {
