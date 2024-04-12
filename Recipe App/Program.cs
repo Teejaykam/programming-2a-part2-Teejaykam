@@ -18,53 +18,57 @@ namespace Recipe_App
 
             while(clear == false)
             {
-                Console.WriteLine("Welcome to Teejay's Recipe App!");
-                Console.WriteLine("================================ New Recipe ================================");
-
-                Console.WriteLine("Enter the number of ingredients within your recipe: ");
-                int numIngredients = Convert.ToInt32(Console.ReadLine());
-
-                for (int i = 0; i < numIngredients; i++)
-                {   
-                    int count = i + 1;
-                    recipe.addIngredient(count);
-                }
-
-                Console.WriteLine("Enter the number of steps within your recipe: ");
-                int numSteps = Convert.ToInt32(Console.ReadLine());
-
-                for (int i = 0; i < numSteps; i++)
+                menu();
+                if (choice == 6)
                 {
-                    Console.WriteLine("Step " + (i + 1) + ": ");
-                    recipe.addStep();
+                    clear = true;
                 }
-
-                recipe.printRecipe();
-                Console.WriteLine("See the recipe at a different scale: ");
-                Console.WriteLine("Enter the number corresponding with the scale value you require: \n" +
-                    "1: A factor of 0.5 (half)\n" +
-                    "2: A factor of 2 (double)\n" +
-                    "3: A factor of 3 (triple)\n" +
-                    "4: Return to the main menu");
-                int option = Convert.ToInt32(Console.ReadLine());
-                switch(option)
+                else
                 {
-                    case 1:
-                        recipe.convertUnits(0.5);
-                        break;
-                    case 2:
-                        recipe.convertUnits(2);
-                        break;
-                    case 3:
-                        recipe.convertUnits(3);
-                        break;
-                    case 4:
-                        clear = true;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option. Please try again.");
-                        break;
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.WriteLine("================================ New Recipe ================================");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("Enter the number of ingredients within your recipe: ");
+                            int numIngredients = Convert.ToInt32(Console.ReadLine());
+
+                            for (int i = 0; i < numIngredients; i++)
+                            {
+                                int count = i + 1;
+                                recipe.addIngredient(count);
+                            }
+                            break;
+                        case 2:
+                            Console.WriteLine("Enter the number of steps within your recipe: ");
+                            int numSteps = Convert.ToInt32(Console.ReadLine());
+
+                            for (int i = 0; i < numSteps; i++)
+                            {
+                                Console.WriteLine("Step " + (i + 1) + ": ");
+                                recipe.addStep();
+                            }
+                            break;
+                        case 3:
+                            recipe.printRecipe();
+                            break;
+                        case 4:
+                            recipe.convertUnits();
+                            break;
+                        case 5:
+                            recipe.ClearData();
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option. Please try again.");
+                            break;
+                    }
                 }
+                
+                
+
+                
+
+                
 
                 Console.WriteLine("If you wish to create a new recipe, press 1. If you wish to exit, press 2.");
                 int choice = Convert.ToInt32(Console.ReadLine());
@@ -96,6 +100,7 @@ namespace Recipe_App
         // Constructor that allows the user to add ingredients: name, quantity, and unit of measurement.
         public void addIngredient(int number)
         {
+
             // Prompt the user to enter the name of the ingredient
             Console.WriteLine("Enter the name of ingredient #" + number + ": ");
             ingredientsName.Add(Console.ReadLine());
@@ -103,12 +108,20 @@ namespace Recipe_App
             // Prompt the user to enter the quantity of the ingredient
             Console.WriteLine("Enter the quantity of ingredient #" + number + ": ");
             double quantity = Convert.ToDouble(Console.ReadLine());
+            if (quantity <= 0)
+            {
+                Console.WriteLine("Invalid quantity. Please enter a positive number only.");
+                quantity = Convert.ToDouble(Console.ReadLine()); 
+            }
             ingredientsAmount.Add(quantity);
             originalQuantities.Add(quantity);
 
             // Prompt the user to enter the unit of measurement for the ingredient
             Console.WriteLine("Enter the unit of measurement for ingredient #" + number + ": ");
             ingredientsUnit.Add(Console.ReadLine());
+
+            Console.WriteLine("");
+
         }
 
 
@@ -137,44 +150,52 @@ namespace Recipe_App
             }
         }
 
-        public void convertUnits(double scaleFactor)
+        public void convertUnits()
         {
             // Prompt the user to enter the unit of measurement they want to convert to
-            Console.WriteLine("Enter the unit of measurement you want to scale  to: ");
+            Console.WriteLine("See the recipe at a different scale: ");
+            Console.WriteLine("Enter the number corresponding with the scale value you require: \n" +
+                "1: A factor of 0.5 (half)\n" +
+                "2: A factor of 2 (double)\n" +
+                "3: A factor of 3 (triple)\n" +
+                "4: Return to the main menu");
+            int option = Convert.ToInt32(Console.ReadLine());
+
+            switch (option)
+            {
+                case 1:
+                    recipe.convertUnits(0.5);
+                    break;
+                case 2:
+                    recipe.convertUnits(2);
+                    break;
+                case 3:
+                    recipe.convertUnits(3);
+                    break;
+                case 4:
+                    clear = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+            }
 
             // Convert the units
             for (int i = 0; i < ingredientsAmount.Count; i++)
             {
-                if (ingredientsAmount[i] != null)
-                {
-                    double? ingredientValue = ingredientsAmount[i] as double?;
-                    if (ingredientValue != null)
-                    {
-                        double scaledQuantity = ingredientValue.Value * scaleFactor;
-                    }
-                    else
-                    {
-                        // Handle the case where ingredientsAmount[i] is not a valid double value
-                        Console.WriteLine("Error: ingredientsAmount[i] is not a valid double value");
-                        break;
-                    }
-                }
-                else
-                {
-                    // Handle the case where ingredientsAmount[i] is null
-                    Console.WriteLine("Error: You don't have any ingredients");
-                    break;
-                }
+                double scaledQuantity = (double)ingredientsAmount[i] * factor;
+                ingredientsAmount[i] = scaledQuantity;
+                
             }
 
             Console.WriteLine("The recipe has been scaled: ");
             printRecipe();
-            Console.WriteLine("Do you wish to reset the quantities to their original values? (y/n)");
+            Console.WriteLine("Do you wish to reset the quantities to their original values? (y/n) ");
             string answer = Console.ReadLine();
             if (answer == "y")
             {
                 resetQuantities();
-            }
+            } 
         }
 
         private void resetQuantities()
@@ -193,6 +214,24 @@ namespace Recipe_App
             ingredientsUnit.Clear();
             steps.Clear();
             originalQuantities.Clear();
+        }
+
+        public void menu()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Welcome to Teejay's Recipe App!", Console.ForegroundColor);
+            Console.ResetColor();
+            Console.WriteLine("Enter the number of the option you wish to select: ");
+            Console.WriteLine("1. Add an ingredient");
+            Console.WriteLine("2. Add a step");
+            Console.WriteLine("3. Print the recipe");
+            Console.WriteLine("4. Convert units");
+            Console.WriteLine("5. Clear the recipe");
+            Console.WriteLine("6. Exit");
+            Console.WriteLine("");
+            Console.WriteLine("================================================================================");
+
+            choice = Convert.ToInt32(Console.ReadLine());
         }
     }
 }
