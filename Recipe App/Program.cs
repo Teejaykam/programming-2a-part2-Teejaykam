@@ -58,7 +58,9 @@ namespace Recipe_App
                             break;
                         case 5:
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("The recipe has been reset successfuly!" + Console.ResetColor + "\nIf you wish to create a new recipe, press 1. If you wish to exit, press 2.");
+                            Console.WriteLine("The recipe has been reset successfuly!");
+                            Console.ResetColor();
+                            Console.WriteLine("\nIf you wish to create a new recipe, press 1. If you wish to exit, press 2.");
 
                             int choice = Convert.ToInt32(Console.ReadLine());
                             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -71,6 +73,7 @@ namespace Recipe_App
                             else
                             {
                                 recipe.ClearData();
+                                Console.Clear();
                                 option = 0;
                             }
                             break;
@@ -145,7 +148,7 @@ namespace Recipe_App
             ingredientsAmount.Add(quantity);
             originalQuantities.Add(quantity);
 
-            // Prompt the user to enter the unit of measurement for the ingredient
+            // Prompt the user to enter the unit of measurement for the ingredient e.g. tsp, tbsp, cup, etc.
             Console.WriteLine("Enter the unit of measurement for ingredient #" + number + ": ");
             ingredientsUnit.Add(Console.ReadLine());
 
@@ -163,6 +166,10 @@ namespace Recipe_App
             Console.WriteLine("Enter the number of steps within your recipe: ");
             int numSteps = Convert.ToInt32(Console.ReadLine());
 
+            if (numSteps <= 0)
+            {
+                Console.WriteLine("Invalid number of steps. Please enter a positive number only.");
+            }
             for (int i = 0; i < numSteps; i++)
             {
                 Console.WriteLine("Step " + (i + 1) + ": ");
@@ -187,11 +194,18 @@ namespace Recipe_App
                 }
             }
 
-            // Print the steps
-            Console.WriteLine("Steps: ");
-            for (int i = 0; i < steps.Count; i++)
+            if (steps.Count <= 0)
             {
-                Console.WriteLine((i + 1) + ". " + steps[i]);
+                Console.WriteLine("There are no steps in the recipe.");
+            }
+            else
+            {
+                // Print the steps
+                Console.WriteLine("Steps: ");
+                for (int i = 0; i < steps.Count; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + steps[i]);
+                }
             }
         }
 
@@ -258,10 +272,10 @@ namespace Recipe_App
             ingredientsAmount.Clear();
             ingredientsAmount.AddRange(originalQuantities);
             Console.WriteLine("The Original Recipe: ");
+            printRecipe();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("============================================================================");
             Console.ResetColor();
-            printRecipe();
         }
 
         public void ClearData()
