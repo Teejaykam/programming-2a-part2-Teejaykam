@@ -11,12 +11,14 @@ namespace Recipe_App
 {
     internal class Program
     {
+        // Creating a public static variable to store the user's option.
         public static int option = 0;
         static void Main(string[] args)
         {
+            // Creating an instance of the Recipe class.
             Recipe recipe = new Recipe();
-            //bool clear = false;
 
+            // Displaying the menu options to the user.
             while(option == 0)
             {
 
@@ -32,9 +34,11 @@ namespace Recipe_App
                 }
                 else
                 {
+                    // Switch statement to handle the user's choice.
                     switch (option)
                     {
                         case 1:
+                            // Calling the addIngredient method of the Recipe class.
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("================================ New Recipe ================================");
                             Console.ResetColor();
@@ -48,30 +52,38 @@ namespace Recipe_App
                             }
                             break;
                         case 2:
+                            // Calling the printRecipe method of the Recipe class.
                             recipe.printRecipe();
                             break;
                         case 3:
+                            // Calling the convertUnits method of the Recipe class.
                             recipe.convertUnits();
                             break;
                         case 4:
+                            // Calling the resetQuantities method of the Recipe class.
                             recipe.resetQuantities();
                             break;
                         case 5:
+                            // Calling the resetQuantities method of the Recipe class.
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("The recipe has been reset successfuly!");
+                            Console.WriteLine("The recipe has been reset successfully!");
                             Console.ResetColor();
                             Console.WriteLine("\nIf you wish to create a new recipe, press 1. If you wish to exit, press 2.");
 
+                            // Prompt the user to enter the number of the option they wish to select.
                             int choice = Convert.ToInt32(Console.ReadLine());
+                            // Changing the text color
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("============================================================================");
                             Console.ResetColor();
                             if (choice == 2)
                             {
+                                // Exiting the program.
                                 option = 6;
                             }
                             else
                             {
+                                // Clearing the recipe data.
                                 recipe.ClearData();
                                 Console.Clear();
                                 option = 0;
@@ -81,7 +93,8 @@ namespace Recipe_App
                             option = 0;
                             break;
                     }
-                    option = 0; //Ensuring the while loop is repeated
+                    //Ensuring the while loop is repeated
+                    //option = 0; 
                 }
 
 
@@ -156,6 +169,13 @@ namespace Recipe_App
             Console.WriteLine("============================================================================");
             Console.ResetColor();
             addStep();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
+            printRecipe();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
 
         }
 
@@ -183,6 +203,9 @@ namespace Recipe_App
             if (ingredientsName.Count == 0)
             {
                 Console.WriteLine("There are no ingredients in the recipe.");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
                 return;
             }
             else {
@@ -190,13 +213,17 @@ namespace Recipe_App
                 Console.WriteLine("Ingredients: ");
                 for (int i = 0; i < ingredientsName.Count; i++)
                 {
-                    Console.WriteLine("#" + ingredientsAmount[i] + " " + ingredientsUnit[i] + " " + ingredientsName[i]);
+                    Console.WriteLine(ingredientsAmount[i] + "" + ingredientsUnit[i] + " of " + ingredientsName[i]);
                 }
             }
 
             if (steps.Count <= 0)
             {
                 Console.WriteLine("There are no steps in the recipe.");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
+                return;
             }
             else
             {
@@ -207,75 +234,103 @@ namespace Recipe_App
                     Console.WriteLine((i + 1) + ". " + steps[i]);
                 }
             }
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("============================================================================");
+            Console.ResetColor();
         }
 
         public void convertUnits()
         {
-            double factor = 1;
-            // Prompt the user to enter the unit of measurement they want to convert to
-            Console.WriteLine("See the recipe at a different scale: ");
-            Console.WriteLine("Enter the number corresponding with the scale value you require: \n" +
-                "1: A factor of 0.5 (half)\n" +
-                "2: A factor of 2 (double)\n" +
-                "3: A factor of 3 (triple)\n" +
-                "4: Return to the main menu");
-            int option = Convert.ToInt32(Console.ReadLine());
-
-            switch (option)
-            {
-                case 1:
-                    factor = 0.5;
-                    break;
-                case 2:
-                    factor = 2;
-                    break;
-                case 3:
-                    factor = 3;
-                    break;
-                case 4:
-                    break;
-                default:
-                    Console.WriteLine("Invalid option. Please try again.");
-                    break;
-            }
-
-            // Convert the units
-            if (ingredientsAmount.Count <= 0)
-            {
-                Console.WriteLine("There are no ingredients to scale.");
+            if (ingredientsAmount.Count <= 0) { 
+                Console.WriteLine("There are no ingredients in the recipe.");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
                 return;
-            } else {
-                for (int i = 0; i < ingredientsAmount.Count; i++)
-                {
-                    double scaledQuantity = (double)ingredientsAmount[i] * factor;
-                    ingredientsAmount[i] = scaledQuantity;
+            }
+            
+            else
+            {
+                double factor = 1;
+                // Prompt the user to enter the unit of measurement they want to convert to
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("See the recipe at a different scale: ");
+                Console.ResetColor();
+                Console.WriteLine("Enter the number corresponding with the scale value you require: \n" +
+                    "1: A factor of 0.5 (half)\n" +
+                    "2: A factor of 2 (double)\n" +
+                    "3: A factor of 3 (triple)\n" +
+                    "4: Return to the main menu");
+                int option = Convert.ToInt32(Console.ReadLine());
 
+                switch (option)
+                {
+                    case 1:
+                        factor = 0.5;
+                        break;
+                    case 2:
+                        factor = 2;
+                        break;
+                    case 3:
+                        factor = 3;
+                        break;
+                    case 4:
+                        Console.Clear();
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+
+                // Convert the units
+                if (ingredientsAmount.Count <= 0)
+                {
+                    Console.WriteLine("There are no ingredients to scale.");
+                    return;
+                } else {
+                    for (int i = 0; i < ingredientsAmount.Count; i++)
+                    {
+                        double scaledQuantity = (double)ingredientsAmount[i] * factor;
+                        ingredientsAmount[i] = scaledQuantity;
+
+                    }
+                }
+
+                Console.WriteLine("The recipe has been scaled: ");
+                printRecipe();
+                Console.WriteLine("Do you wish to reset the quantities to their original values? (y/n) ");
+                string answer = Console.ReadLine();
+                if (answer == "y")
+                {
+                    resetQuantities();
                 }
             }
-
-            Console.WriteLine("The recipe has been scaled: ");
-            printRecipe();
-            Console.WriteLine("Do you wish to reset the quantities to their original values? (y/n) ");
-            string answer = Console.ReadLine();
-            if (answer == "y")
-            {
-                resetQuantities();
-            } 
         }
 
         public void resetQuantities()
         {
-            Console.WriteLine("The recipe has been reset: ");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("============================================================================");
-            Console.ResetColor();
-            ingredientsAmount.Clear();
-            ingredientsAmount.AddRange(originalQuantities);
-            Console.WriteLine("The Original Recipe: ");
-            printRecipe();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("============================================================================");
-            Console.ResetColor();
+            if (ingredientsAmount.Count <= 0)
+            {
+                Console.WriteLine("There are no ingredients in the recipe.");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
+                return;
+            }
+            else
+            {
+                Console.WriteLine("The recipe has been reset: ");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
+                ingredientsAmount.Clear();
+                ingredientsAmount.AddRange(originalQuantities);
+                Console.WriteLine("The Original Recipe: ");
+                printRecipe();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("============================================================================");
+                Console.ResetColor();
+            }
         }
 
         public void ClearData()
