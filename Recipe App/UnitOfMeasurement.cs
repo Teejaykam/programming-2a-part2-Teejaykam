@@ -16,50 +16,26 @@ namespace Recipe_App
 
     internal class UnitOfMeasurement
     {
-        public static string UnitsToNameS(Units UoM)
-        {
-            switch(UoM)
-            {
-                case Units.None:
-                    return null;  
-                case Units.Tsp:
-                    return "tea spoon";   
-                case Units.Tbsp:
-                    return "table spoon";  
-                case Units.Cup:
-                    return "cup";   
-                case Units.G:
-                    return "gram"; 
-                case Units.Kg:
-                    return "kilogram";
-                case Units.Ml:
-                    return "millilitre";    
-                case Units.L:
-                    return "litre";
-            }
-            return null;
-        }
-
-        public static string UnitsToNameM(Units UoM)
+        public static string UnitsToName(Units UoM, bool pluralForm)
         {
             switch (UoM)
             {
                 case Units.None:
                     return null;
                 case Units.Tsp:
-                    return "tea spoons";
+                    return pluralForm ? "tea spoons" : "tea spoon";
                 case Units.Tbsp:
-                    return "table spoons";
+                    return pluralForm ? "table spoons" : "table spoon";
                 case Units.Cup:
-                    return "cups";
+                    return pluralForm ? "cups" : "cup";
                 case Units.G:
-                    return "grams";
+                    return pluralForm ? "grams" : "gram";
                 case Units.Kg:
-                    return "kilograms";
+                    return pluralForm ? "kilograms" : "kilogram";
                 case Units.Ml:
-                    return "millilitres";
+                    return pluralForm ? "millilitres" : "millilitre";
                 case Units.L:
-                    return "litres";
+                    return pluralForm ? "litres" : "litre";
             }
             return null;
         }
