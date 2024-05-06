@@ -2,7 +2,10 @@
 
 namespace Recipe_App
 {
-    internal enum Units
+    /// <summary>
+    /// Represents the unit of measurement for ingredients.
+    /// </summary>
+    public enum Units : byte
     {
         None = 0,
         Tsp = 1,
@@ -14,8 +17,17 @@ namespace Recipe_App
         L = 7
     }
 
-    internal class UnitOfMeasurement
+    /// <summary>
+    /// Represents the unit of measurement conversion.
+    /// </summary>
+    public static class UnitOfMeasurement
     {
+        /// <summary>
+        /// Converts the unit of measurement to its name.
+        /// </summary>
+        /// <param name="UoM">The unit of measurement.</param>
+        /// <param name="pluralForm">Whether to use the plural form or not.</param>
+        /// <returns>The name of the unit of measurement.</returns>
         public static string UnitsToName(Units UoM, bool pluralForm)
         {
             switch (UoM)
