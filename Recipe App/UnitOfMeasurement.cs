@@ -30,10 +30,14 @@ namespace Recipe_App
         /// <returns>The name of the unit of measurement.</returns>
         public static string UnitsToName(Units UoM, bool pluralForm)
         {
+            // Validate input enum value
+            if (!Enum.IsDefined(typeof(Units), UoM) || UoM == Units.None)
+            {
+                throw new ArgumentException("Invalid unit of measurement.");
+            }
+
             switch (UoM)
             {
-                case Units.None:
-                    return null;
                 case Units.Tsp:
                     return pluralForm ? "tea spoons" : "tea spoon";
                 case Units.Tbsp:
@@ -48,8 +52,9 @@ namespace Recipe_App
                     return pluralForm ? "millilitres" : "millilitre";
                 case Units.L:
                     return pluralForm ? "litres" : "litre";
+                default:
+                    throw new ArgumentException("Invalid unit of measurement.");
             }
-            return null;
         }
     }
 }
