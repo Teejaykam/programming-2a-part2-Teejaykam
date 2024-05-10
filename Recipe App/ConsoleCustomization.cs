@@ -3,19 +3,18 @@ using System.Collections.Generic;
 
 namespace Recipe_App
 {
-    public enum Colours
-    {
-        Red,
-        Green,
-        Blue,
-        Yellow,
-        Cyan,
-        White,
-        Black
-    }
-
     internal static class ConsoleCustomization
     {
+        public enum Colours
+        {
+            Red,
+            Green,
+            Blue,
+            Yellow,
+            Cyan,
+            White,
+            Black
+        }
         /// <summary>
         /// Sets the console color based on the provided parameters.
         /// </summary>
