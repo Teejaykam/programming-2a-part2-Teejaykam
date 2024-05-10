@@ -66,7 +66,17 @@ namespace Recipe_App
         /// <returns>True if the ConsoleColor was successfully retrieved, false otherwise.</returns>
         private static bool TryGetConsoleColor(Colours color, out ConsoleColor consoleColor)
         {
-            return ColorMap.TryGetValue(color, out consoleColor);
+            if (ColorMap.TryGetValue(color, out consoleColor))
+            {
+                return true;
+            }
+            else
+            {
+                // Print a message indicating the invalid color, or handle it silently
+                Console.WriteLine($"Invalid color: {color}. Defaulting to ConsoleColor.White.");
+                consoleColor = ConsoleColor.White; // Set a default color, or any appropriate fallback
+                return false;
+            }
         }
 
         /// <summary>
