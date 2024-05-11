@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using static Recipe_App.ConsoleCustomization;
 
 namespace Recipe_App
@@ -83,6 +84,43 @@ namespace Recipe_App
             Program.menu();
         }
 
+        public static float CalculateTotalCalories(Recipe recipe)
+        {
+            float total = 0;
+            foreach (Ingredients ingredient in recipe.GetIngredients())
+            {
+                total += ingredient.Calories;
+            }
+            return total;
+        }
 
+        public static bool ValidString(string input)
+        {
+            if(string.IsNullOrEmpty(input)) return false;
+            if(!Regex.IsMatch(input, @"^[a-zA-Z\s]+$")) return false;
+            return true;
+        }
+
+        public static bool ValidInteger(string input)
+        {
+            if(!int.TryParse(input, out int num)) return false;
+            if(num<1) return false;
+            return true;
+        }
+
+        public static bool ValidFloat(string input)
+        {
+            if (!float.TryParse(input, out float num)) return false;
+            if (num < 0) return false;
+            return true;
+        }
+
+        public static bool ValidByte(byte input)
+        {
+            byte num;
+            if(!byte.TryParse(input.ToString(), out num)) return false; 
+            if(num<0) return false;
+            return true;
+        }
     }
 }
