@@ -19,7 +19,7 @@ namespace Recipe_App
                 {
                     ConsoleCustomization.SetColor("There are no recipes in the list.", Colours.Black, Colours.Red, true, true);
                     ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Red, true, true);
-                    Program.menu();
+                    Program.Menu();
                     return;
                 }
 
@@ -58,8 +58,8 @@ namespace Recipe_App
                     if (steps.Count == 0)
                     {
                         ConsoleCustomization.SetColor("There are no steps in the recipe.", Colours.Black, Colours.Red, true, true);
-                        ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Red, true, true);
-                        Program.menu();
+                        ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Cyan, true, true);
+                        Program.Menu();
                         return;
                     }
 
@@ -69,19 +69,19 @@ namespace Recipe_App
                         ConsoleCustomization.SetColor($"- Step #{i + 1}: {steps[i]}", Colours.Black, Colours.White, true, false);
                     }
 
-                    ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Red, true, true);
+                    ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Cyan, true, true);
                 }
             }
             catch (ArgumentException ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                ConsoleCustomization.SetColor("Error: " + ex.Message, Colours.Red, Colours.White, true, true);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An unexpected error occurred: " + ex.Message);
+                ConsoleCustomization.SetColor("An unexpected error occurred: " + ex.Message, Colours.Red, Colours.White, true, true);
             }
 
-            Program.menu();
+            Program.Menu();
         }
 
         public static float CalculateTotalCalories(Recipe recipe)
@@ -121,6 +121,19 @@ namespace Recipe_App
             if(!byte.TryParse(input.ToString(), out num)) return false; 
             if(num<0) return false;
             return true;
+        }
+
+        public static void Exit()
+        {
+            Environment.Exit(0);
+        }
+
+        public static void SelectRecipe(List<Recipe> recipes)
+        {
+            foreach (Recipe recipe in recipes)
+            {
+                ConsoleCustomization.SetColor(recipe.GetName(), Colours.Black, Colours.White, true, true);
+            }
         }
     }
 }
