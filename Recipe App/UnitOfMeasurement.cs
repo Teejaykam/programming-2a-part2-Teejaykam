@@ -38,6 +38,7 @@ namespace Recipe_App
 
             switch (UoM)
             {
+                //ternary operator to return either the value for true or false
                 case Units.Tsp:
                     return pluralForm ? "tea spoons" : "tea spoon";
                 case Units.Tbsp:

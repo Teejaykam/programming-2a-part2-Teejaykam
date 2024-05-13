@@ -13,14 +13,13 @@ namespace Recipe_App
             // Check if there are any ingredients in the recipe
             if (recipes.Count <= 0)
             {
-                ConsoleCustomization.SetColor("There are no recipes.", ConsoleCustomization.Colours.Red,
-                    ConsoleCustomization.Colours.White, true, false);
-                ;
+                ConsoleCustomization.SetColor("There are no recipes.", ConsoleCustomization.Colours.Red, ConsoleCustomization.Colours.White, true, false);
                 Program.Menu();
                 return;
             }
 
-            Console.WriteLine("Select a recipe to scale its quantities: ");
+            ConsoleCustomization.SetColor("Select a recipe to scale its quantities: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
+
             int choice = 0;
 
             foreach (Recipe recipe in recipes)
@@ -28,12 +27,13 @@ namespace Recipe_App
                 ConsoleCustomization.SetColor(
                     $"\n{++choice}. Recipe Name: {recipe.GetName()} | (Calories: {HelperClass.CalculateTotalCalories(recipe)})",
                     ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, true);
-                Console.WriteLine("List of Ingredients: ");
+                ConsoleCustomization.SetColor("List of Ingredients: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
+
                 List<Ingredients> ingredients = recipe.GetIngredients();
 
                 if (ingredients.Count <= 0)
                 {
-                    Console.WriteLine("There are no ingredients in the recipe.");
+                    ConsoleCustomization.SetColor("There are no ingredients in the recipe.", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
                 }
                 else
                 {
@@ -53,13 +53,13 @@ namespace Recipe_App
                     }
                 }
             }
-            Console.Write("Enter your choice: ");
+
+            ConsoleCustomization.SetColor("Enter your choice: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
             string? decision = Console.ReadLine();
 
-            while (decision == null || !HelperClass.ValidInteger(decision) || int.Parse(decision) > recipes.Count ||
-                   int.Parse(decision) < 1)
+            while (decision == null || !HelperClass.ValidInteger(decision) || int.Parse(decision) > recipes.Count || int.Parse(decision) < 1)
             {
-                Console.Write($"Enter a valid recipe number between 1 and {recipes.Count}: ");
+                ConsoleCustomization.SetColor($"Enter a valid recipe number between 1 and {recipes.Count}: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
                 decision = Console.ReadLine();
             }
 
@@ -72,12 +72,12 @@ namespace Recipe_App
                 {
                     List<Ingredients> ingredients = recipe.GetIngredients();
 
-                    Console.Write("Enter a valid scaling factor: ");
+                    ConsoleCustomization.SetColor("Enter a valid scaling factor: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
                     string factorStr = Console.ReadLine();
 
-                    while(factorStr == null || !HelperClass.ValidFloat((factorStr)) || float.Parse(factorStr) > 50.00)
+                    while (factorStr == null || !HelperClass.ValidFloat((factorStr)) || float.Parse(factorStr) > 50.00)
                     {
-                        Console.Write("Enter a valid scaling factor between 0 and 50: ");
+                        ConsoleCustomization.SetColor("Enter a valid scaling factor between 0 and 50: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
                         factorStr = Console.ReadLine();
                     }
 
@@ -91,14 +91,16 @@ namespace Recipe_App
                         ingredient.Calories *= factor;
                         counter++;
                     }
-                } else if (count > ans)
+                }
+                else if (count > ans)
                 {
                     break;
                 }
 
                 count++;
             }
-            Console.WriteLine("The recipe has been scaled: ");
+
+            ConsoleCustomization.SetColor("The recipe has been scaled: ", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, false);
             Program.Menu();
         }
 
@@ -111,8 +113,8 @@ namespace Recipe_App
                 ;
             }
 
-            ConsoleCustomization.SetColor("Select a recipe to reset its quantity", ConsoleCustomization.Colours.Cyan,
-                ConsoleCustomization.Colours.White, true, false);
+            /*ConsoleCustomization.SetColor("Select a recipe to reset its quantities", ConsoleCustomization.Colours.Cyan,
+                ConsoleCustomization.Colours.White, true, false);*/
             int choice = 0;
 
             foreach (Recipe recipe in recipes)
@@ -120,7 +122,7 @@ namespace Recipe_App
                 ConsoleCustomization.SetColor(
                     $"\n{++choice}. Recipe Name: {recipe.GetName()} | (Calories: {HelperClass.CalculateTotalCalories(recipe)})",
                     ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, true);
-                Console.WriteLine("List of Ingredients: ");
+               /* Console.WriteLine("List of Ingredients: ");
                 List<Ingredients> ingredients = recipe.GetIngredients();
 
                 if (ingredients.Count <= 0)
@@ -143,34 +145,83 @@ namespace Recipe_App
                             false
                         );
                     }
-                }
+                }*/
             }
 
-            ConsoleCustomization.SetColor("Enter your choice: ", ConsoleCustomization.Colours.Yellow,
+            ConsoleCustomization.SetColor("Enter your choice of recipe to reset: ", ConsoleCustomization.Colours.Yellow,
                 ConsoleCustomization.Colours.White, false, false);
             string choiceAnswer = Console.ReadLine();
 
+            if (choiceAnswer == null)
+            {
+                // Handle the case where the user didn't enter anything
+                Console.WriteLine("You didn't enter a choice. Please try again.");
+                choiceAnswer = Console.ReadLine();
+            }
+
             while (!HelperClass.ValidInteger(choiceAnswer) || int.Parse(choiceAnswer) > recipes.Count ||
-                   int.Parse(choiceStr) < 1)
+                   int.Parse(choiceAnswer) < 1)
             {
                 Console.WriteLine($"Enter a valid number between 1 and {recipes.Count}: ");
                 choiceAnswer = Console.ReadLine();
+
+                if (choiceAnswer == null)
+                {
+                    // Handle the case where the user didn't enter anything
+                    Console.WriteLine("You didn't enter a choice. Please try again.");
+                    choiceAnswer = Console.ReadLine();
+                }
             }
 
             int option = int.Parse(choiceAnswer);
 
-            ConsoleCustomization.SetColor("Are you sure you want to reset the quantities? (y/n) ",
+            ConsoleCustomization.SetColor("Are you sure you want to reset the quantities?\n1. Yes\n2. No",
                 ConsoleCustomization.Colours.Yellow, ConsoleCustomization.Colours.White, false, false);
             string answer = Console.ReadLine();
-            if (answer == "y")
+
+            if (answer == null)
             {
-                ConsoleCustomization.SetColor("The recipe has been reset: ", ConsoleCustomization.Colours.Red,
-                    ConsoleCustomization.Colours.White, true, false);
-                ingredientsAmount.Clear();
-                ingredientsAmount.AddRange(originalQuantities);
-                ConsoleCustomization.SetColor("The Original Recipe: ", ConsoleCustomization.Colours.Red,
-                    ConsoleCustomization.Colours.White, true, false);
-                PrintRecipe(recipe);
+                // Handle the case where the user didn't enter anything
+                Console.WriteLine("You didn't enter a choice. Please try again.");
+                answer = Console.ReadLine();
+            }
+            while (!HelperClass.ValidInteger(answer) || int.Parse(answer) > 2 ||
+                   int.Parse(answer) < 1)
+            {
+                Console.WriteLine($"Enter a valid number between 1 and 2: ");
+                answer = Console.ReadLine();
+
+                if (answer == null)
+                {
+                    // Handle the case where the user didn't enter anything
+                    Console.WriteLine("You didn't enter a choice. Please try again.");
+                    answer = Console.ReadLine();
+                }
+            }
+
+            int answerInt = int.Parse(answer);
+            
+            if (answerInt == 1)
+            {
+                foreach (Recipe recipe in recipes)
+                {
+                    List<Ingredients> ingredients = recipe.GetIngredients();
+                    foreach (Ingredients ingredient in ingredients)
+                    {
+                        var scaledFactor = ingredient.OriginalQuantity / ingredient.Quantity;
+                        ingredient.Quantity = ingredient.OriginalQuantity;
+                        ingredient.Calories *= scaledFactor;
+                    }
+                }
+
+                ConsoleCustomization.SetColor("The recipe has been reset: ", ConsoleCustomization.Colours.Green,
+                    ConsoleCustomization.Colours.White, true, true);
+                Program.Menu();
+            }
+            else
+            {
+                Console.Clear();
+                Program.menu(0);
             }
         }
 
@@ -181,7 +232,7 @@ namespace Recipe_App
             Console.WriteLine("Are you sure you want to clear the data?\n1.Yes\n2.No");
             Console.Write("Enter your choice: ");
             string answer = Console.ReadLine();
-            while (!HelperClass.ValidInteger(answer))
+            while (answer == null || !HelperClass.ValidInteger(answer))
             {
                 Console.Write("Please enter a valid option: ");
                 answer = Console.ReadLine();
@@ -194,12 +245,13 @@ namespace Recipe_App
                 // Clearing the data in the Lists
                 recipes.Clear();
                 // Clear the data
-                Console.WriteLine("The data has been cleared.");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(
-                    "============================================================================\nPress any key to continue...");
-                Console.ResetColor();
+                ConsoleCustomization.SetColor("The data has been reset.", ConsoleCustomization.Colours.Green,
+                    ConsoleCustomization.Colours.White, true, true);
+                ConsoleCustomization.SetColor("\"============================================================================\\nPress any key to continue...",
+                    ConsoleCustomization.Colours.Black,
+                    ConsoleCustomization.Colours.Cyan, true, true);
                 Console.ReadKey();
+                Program.Menu();
             }
             else
             {
