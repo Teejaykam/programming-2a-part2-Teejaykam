@@ -5,7 +5,7 @@ namespace Recipe_App
     /// <summary>
     /// Represents the unit of measurement for ingredients.
     /// </summary>
-    public enum Units : byte
+    public enum UnitOfMeasurement : byte
     {
         None = 0,
         Tsp = 1,
@@ -20,7 +20,7 @@ namespace Recipe_App
     /// <summary>
     /// Represents the unit of measurement conversion.
     /// </summary>
-    public static class UnitOfMeasurement
+    public static class UoMConversion
     {
         /// <summary>
         /// Converts the unit of measurement to its name.
@@ -28,10 +28,10 @@ namespace Recipe_App
         /// <param name="UoM">The unit of measurement.</param>
         /// <param name="pluralForm">Whether to use the plural form or not.</param>
         /// <returns>The name of the unit of measurement.</returns>
-        public static string UnitsToName(Units UoM, bool pluralForm)
+        public static string UnitsToName(UnitOfMeasurement UoM, bool pluralForm)
         {
             // Validate input enum value
-            if (!Enum.IsDefined(typeof(Units), UoM) || UoM == Units.None)
+            if (!Enum.IsDefined(typeof(UnitOfMeasurement), UoM) || UoM == UnitOfMeasurement.None)
             {
                 throw new ArgumentException("Invalid unit of measurement.");
             }
@@ -39,19 +39,19 @@ namespace Recipe_App
             switch (UoM)
             {
                 //ternary operator to return either the value for true or false
-                case Units.Tsp:
+                case UnitOfMeasurement.Tsp:
                     return pluralForm ? "tea spoons" : "tea spoon";
-                case Units.Tbsp:
+                case UnitOfMeasurement.Tbsp:
                     return pluralForm ? "table spoons" : "table spoon";
-                case Units.Cup:
+                case UnitOfMeasurement.Cup:
                     return pluralForm ? "cups" : "cup";
-                case Units.G:
+                case UnitOfMeasurement.G:
                     return pluralForm ? "grams" : "gram";
-                case Units.Kg:
+                case UnitOfMeasurement.Kg:
                     return pluralForm ? "kilograms" : "kilogram";
-                case Units.Ml:
+                case UnitOfMeasurement.Ml:
                     return pluralForm ? "millilitres" : "millilitre";
-                case Units.L:
+                case UnitOfMeasurement.L:
                     return pluralForm ? "litres" : "litre";
                 default:
                     throw new ArgumentException("Invalid unit of measurement.");
