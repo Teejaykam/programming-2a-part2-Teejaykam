@@ -6,83 +6,129 @@ namespace Recipe_App
 {
     public class MainApp
     {
-        public delegate string NotifyTotalCaloriesExceedLimit(Recipe ingredientName);
+        //public delegate string NotifyTotalCaloriesExceedLimit(Recipe ingredientName);
+        public delegate void NotifyTotalCaloriesExceedLimitDelegate(int totalCalories);
+        public static event NotifyTotalCaloriesExceedLimitDelegate NotifyTotalCaloriesExceedLimit;
 
         public static void Ingredients(List<Recipe> recipes)
         {
             bool nameValid = false;
-            string name;
+            string name = "";
 
-            if (!nameValid)
+            while (!nameValid)
             {
                 Console.Write("Enter the name of your recipe: ");
-                name = Console.ReadLine() ?? "none";
-                while (!nameValid)
+                name = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(name) || !HelperClass.ValidString(name))
                 {
-                    if (name == "none")
+                    Console.WriteLine("Name is invalid!");
+                }
+                else
+                {
+                    bool exists = recipes.Any(recipe => recipe.GetName().ToLower() == name.ToLower());
+
+                    if (exists)
                     {
-                        Console.WriteLine("Name is invalid!");
+                        Console.WriteLine($"Recipe {name} Already Exists");
                     }
                     else
                     {
-                        bool exists = false;
-                        if (recipes.Count != 0)
-                        {
-                            foreach (Recipe recipe in recipes)
-                            {
-                                if (recipe.GetName().ToLower() == name.ToLower())
-                                {
-                                    exists = true;
-                                }
-                            }
-                        }
-
-                        if (exists)
-                        {
-                            Console.WriteLine($"Recipe {name} Already Exists");
-                        }
-                        else
-                        {
-                            nameValid = true;
-                        }
+                        nameValid = true;
                     }
                 }
-                /*while (name == null || !HelperClass.ValidString(name) || name == "none")
-                {
-                    Console.Write($"Enter a valid name for the recipe: ");
-                    name = Console.ReadLine();
-                }
-
-                if (recipes.Count != 0)
-                {
-                    foreach (Recipe recipe in recipes)
-                        if (recipe.GetName().ToLower() == name.ToLower())
-                        {
-                            exists = true;
-                        }
-                }*/
-
-                Recipe newRecipe = new Recipe(name);
-
-                Console.Write("Enter the amount of ingredients: ");
-                string input = Console.ReadLine();
-                int ingredientsAmount;
-
-                while (input == null || !int.TryParse(input, out ingredientsAmount) || ingredientsAmount < 1)
-                {
-                    Console.Write($"Enter a valid amount of ingredients between 1 and e: ");
-                    input = Console.ReadLine();
-                }
-
-                recipes.Add(newRecipe);
-                ;
-                InputIngredientInfo(ingredientsAmount, newRecipe, NotifyTotalCaloriesExceed);
             }
+
+            Recipe newRecipe = new Recipe(name);
+
+            Console.Write("Enter the amount of ingredients: ");
+            string input = Console.ReadLine();
+            int ingredientsAmount;
+
+            while (input == null || !int.TryParse(input, out ingredientsAmount) || ingredientsAmount < 1)
+            {
+                Console.Write("Enter a valid amount of ingredients: ");
+                input = Console.ReadLine();
+            }
+
+            recipes.Add(newRecipe);
+            InputIngredientInfo(ingredientsAmount, newRecipe, NotifyTotalCaloriesExceed);
         }
 
-        private static string NotifyTotalCaloriesExceed(Recipe ingredientname)
+
+        private static String NotifyTotalCaloriesExceed(Recipe recipe)
         {
-            throw new NotImplementedException();
+            string changed = "";
+
+            Console.Write("Calories have exceeded 300. Would you like to adjust the recipe?\n1. Yes\n2. No\nEnter your choice: ");
+            string input = Console.ReadLine();
+
+            while (input == null || !HelperClass.ValidInteger(input) || int.Parse(input) > 2 || int.Parse(input) < 1)
+            {
+                Console.Write($"Please enter a valid option between 1 and 2: ");
+                input = Console.ReadLine();
+            }
+            int answer = int.Parse(input);
+            int counter = 0;
+            Console.WriteLine();
+            if (answer == 1)
+            {
+                List<Ingredients> ingredients = recipe.GetIngredients();
+                Console.WriteLine($"Listing the ingredients within {recipe.GetName()}:\n");
+                Console.WriteLine($"================================ {recipe.GetName()} ================================");
+                foreach (Ingredients ingredient in ingredients)
+                {
+                    Console.WriteLine($"{++counter}. Ingredient Name: {ingredient.Name} | Calories: {ingredient.Calories}");
+
+                    Console.WriteLine($"Name: {ingredient.Name}" +
+                                      $"\nQuantity: {ingredient.Quantity}" +
+                                      $"\nMeasurement: {ingredient.Measurement}" +
+                                      $"\nCalories: {ingredient.Calories}" +
+                                      $"\nFood Group: {ingredient.FoodGroup}");
+                }
+
+                Console.WriteLine();
+                Console.Write("Enter an option: ");
+                string option = Console.ReadLine();
+
+                while (option == null || !HelperClass.ValidInteger(option) || int.Parse(option) > ingredients.Count ||
+                       int.Parse(option) < 1)
+                {
+                    Console.Write($"Please enter a valid option between 1 and {ingredients.Count}: ");
+                    option = Console.ReadLine();
+                }
+
+                int optionTwo = int.Parse(option);
+                int counterTwo = 0;
+
+                foreach (Ingredients ingredient in ingredients)
+                {
+                    if (counterTwo == optionTwo - 1)
+                    {
+                        Console.WriteLine();
+                        Console.Write($"Enter the number of calories for {ingredient.Name}: ");
+                        String caloriesStr = Console.ReadLine();
+
+                        while (caloriesStr == null || !HelperClass.ValidFloat(caloriesStr) || float.Parse(caloriesStr) > 1000)
+                        {
+                            Console.Write($"Please enter a valid number of calories for {ingredient.Name}: ");
+                            caloriesStr = Console.ReadLine();
+                        }
+
+                        float calories = float.Parse(caloriesStr);
+                        ingredient.Calories = calories;
+
+                        changed = "changed";
+                    }
+
+                    counterTwo++;
+                }
+            } else if (answer == 2)
+            {
+                return "nochange";
+            }
+
+            return changed;
         }
 
         private static void InputIngredientInfo(int ingredientsAmount, Recipe recipe,
@@ -95,7 +141,7 @@ namespace Recipe_App
 
                 while (ingredientName == null || !HelperClass.ValidString(ingredientName))
                 {
-                    Console.Write($"Enter a valid name for the ingredient #{i + 1}: ");
+                    Console.Write($"Enter a valid name for ingredient #{i + 1}: ");
                     ingredientName = Console.ReadLine();
                 }
 
@@ -104,16 +150,16 @@ namespace Recipe_App
 
                 while (inputQuantity == null || !HelperClass.ValidFloat(inputQuantity))
                 {
-                    Console.Write($"Enter a valid quantity for the ingredient '{ingredientName}': ");
+                    Console.Write($"Enter a valid quantity of '{ingredientName}': ");
                     inputQuantity = Console.ReadLine();
                 }
 
                 float.TryParse(inputQuantity, out float quantityOfIngredient);
                 float originalQuantity = quantityOfIngredient;
 
-                GetUnitOfMeasurement();
+                string measurement = GetUnitOfMeasurement().ToString();
 
-                Console.Write($"Eneter the number of calories for ingredient #{i + 1}: ");
+                Console.Write($"Enter the number of calories for ingredient #{i + 1}: ");
                 string inputCalories = Console.ReadLine();
 
                 while (inputCalories == null || !HelperClass.ValidFloat(inputCalories) ||
@@ -138,9 +184,10 @@ namespace Recipe_App
                     "\n7. Water");
                 Console.Write("Enter a choice: ");*/
                 String foodGroup = GetIngredientFoodGroup(ingredientName);
+               
 
                 Ingredients ingredient = new Ingredients(ingredientName, quantityOfIngredient,originalQuantity,
-                    calories, foodGroup, GetUnitOfMeasurement().ToString());
+                    calories, foodGroup, measurement );
 
                 recipe.AddIngredient(ingredient);
             }
@@ -157,7 +204,37 @@ namespace Recipe_App
 
         private static void InputSteps(Recipe recipe)
         {
-            throw new NotImplementedException();
+            Console.WriteLine();
+            Console.Write("Please enter the number of steps required: ");
+            string steps = Console.ReadLine();
+            int stepsCount;
+
+            while (!int.TryParse(steps, out stepsCount) || stepsCount < 1 )
+            {
+                Console.Write($"Please enter a valid number of steps: ");
+                steps = Console.ReadLine();
+            }
+
+            for (int i = 0; i < stepsCount; i++)
+            {
+                Console.Write($"Enter the description for step #{i+1}: ");
+                string description = Console.ReadLine();
+
+                while (description == null || !HelperClass.ValidString(description))
+                {
+                    Console.Write($"Enter a valid description for step #{i + 1}: ");
+                    description = Console.ReadLine();   
+                }
+                recipe.AddStep(description);
+            }
+
+            Console.WriteLine();
+            ConsoleCustomization.SetColor("Recipe successfully created!\nPress any key to continue...",
+                ConsoleCustomization.Colours.Black,
+                ConsoleCustomization.Colours.Green, false, true);
+            Console.ReadKey();
+            Console.Clear();
+            Program.Menu();
         }
 
         private static UnitOfMeasurement GetUnitOfMeasurement()
@@ -166,7 +243,7 @@ namespace Recipe_App
             UnitOfMeasurement returns = UnitOfMeasurement.None;
             do
             {
-                Console.WriteLine($"Select the unit of measurement for {i + 1}");
+                Console.WriteLine($"Select the unit of measurement");
                 Console.Write(
                     "(1) Tea spoons [Tsp]\n(2) Table spoons [Tbsp]\n(3) Cups [C]\n(4) Grams [G]\n(5) Kilograms [KG]\n(6) Millilitres [Ml]" +
                     "\n(7) Litres [L]\nEnter unit here: ");
@@ -178,7 +255,7 @@ namespace Recipe_App
                     UoM = Convert.ToByte(measurement);
                     if (UoM <= 0 || UoM >= 7)
                     {
-                        Console.WriteLine("Invalid unit of measurement. Please try again.");
+                        Console.Write("Invalid unit of measurement. Please enter a valid unit of measurement between 1 and 7: ");
                         validUoM = false;
                         continue;
                     }
@@ -190,11 +267,11 @@ namespace Recipe_App
                 }
                 catch (OverflowException)
                 {
-                    Console.WriteLine("That number is too big!");
+                    Console.Write("That number is too big! Please enter a valid unit of measurement between 1 and 7: ");
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Enter a valid number!");
+                    Console.WriteLine("Enter a valid number! Please enter a valid unit of measurement between 1 and 7: ");
                 }
             } while (!validUoM);
 
@@ -211,21 +288,28 @@ namespace Recipe_App
                 "Milk or Dairy products", "Fats or Oils", "Water"
             };
             string foodGroupName = "";
+            int selectedGroup;
 
             while (true)
             {
-                if (!int.TryParse(Console.ReadLine(), out int selectedGroup) || selectedGroup < 1 ||
+                if (!int.TryParse(Console.ReadLine(), out selectedGroup) || selectedGroup < 1 ||
                     selectedGroup > groups.Length)
                 {
-                    Console.WriteLine("Invalid Option selected!");
-                    continue;
+                    Console.Write("Please enter a valid food group: ");
                 }
-
-                foodGroupName = groups[selectedGroup - 1];
-                break;
+                else
+                {
+                    foodGroupName = groups[selectedGroup - 1];
+                    break;
+                }
             }
-
+            Console.WriteLine();
             return foodGroupName;
+        }
+
+        public static void NotifyTotalCaloriesExceedLimitHandler(int totalCalories)
+        {
+            ConsoleCustomization.SetColor($"Total calories exceed limit: {totalCalories}", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Red, true, true);
         }
     }
 }
