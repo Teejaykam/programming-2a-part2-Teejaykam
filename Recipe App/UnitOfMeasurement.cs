@@ -40,19 +40,19 @@ namespace Recipe_App
             {
                 //ternary operator to return either the value for true or false
                 case UnitOfMeasurement.Tsp:
-                    return pluralForm ? "tea spoons" : "tea spoon";
+                    return pluralForm ? "Tea spoons" : "Tea spoon";
                 case UnitOfMeasurement.Tbsp:
-                    return pluralForm ? "table spoons" : "table spoon";
+                    return pluralForm ? "Table spoons" : "Table spoon";
                 case UnitOfMeasurement.Cup:
-                    return pluralForm ? "cups" : "cup";
+                    return pluralForm ? "Cups" : "Cup";
                 case UnitOfMeasurement.G:
-                    return pluralForm ? "grams" : "gram";
+                    return pluralForm ? "Grams" : "Gram";
                 case UnitOfMeasurement.Kg:
-                    return pluralForm ? "kilograms" : "kilogram";
+                    return pluralForm ? "Kilograms" : "Kilogram";
                 case UnitOfMeasurement.Ml:
-                    return pluralForm ? "millilitres" : "millilitre";
+                    return pluralForm ? "Millilitres" : "Millilitre";
                 case UnitOfMeasurement.L:
-                    return pluralForm ? "litres" : "litre";
+                    return pluralForm ? "Litres" : "Litre";
                 default:
                     throw new ArgumentException("Invalid unit of measurement.");
             }
