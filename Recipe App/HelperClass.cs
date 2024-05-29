@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using static Recipe_App.ConsoleCustomization;
+using static Recipe_App.MainApp;
 
 namespace Recipe_App
 {
@@ -10,67 +11,95 @@ namespace Recipe_App
         {
             try
             {
-                if (recipes == null)
+                if (recipes.Count == 0 || recipes == null)
                 {
-                    throw new ArgumentNullException("Recipe list is null.");
-                }
-
-                if (recipes.Count == 0)
-                {
-                    ConsoleCustomization.SetColor("There are no recipes in the list.", Colours.Black, Colours.Red, true, true);
-                    ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Red, true, true);
+                    ConsoleCustomization.SetColor("There are no recipes. Press any key to continue...", Colours.Black, Colours.Red, false, true);
+                    Console.ReadKey();
+                    Console.Clear();
                     Program.Menu();
                     return;
                 }
 
                 int choice = 0;
-                foreach (Recipe recipe in recipes)
+                foreach (Recipe Recipe in recipes)
                 {
                     choice++;
-                    var recipeName = recipe.GetName();
-                    var totalCalories = HelperClass.CalculateTotalCalories(recipe);
-                    ConsoleCustomization.SetColor($"\n{choice}. Recipe Name: {recipeName} | (Calories: {totalCalories})", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, true);
-
-                    List<Ingredients> ingredients = recipe.GetIngredients();
-                    if (ingredients.Count == 0)
-                    {
-                        ConsoleCustomization.SetColor("There are no ingredients in the recipe.", Colours.Black, Colours.Red, true, true);
-                    }
-                    else
-                    {
-                        foreach (Ingredients ingredient in ingredients)
-                        {
-                            ConsoleCustomization.SetColor(
-                                $"\n- Name: {ingredient.Name}" +
-                                $"\n- Quantity: {ingredient.Quantity}" +
-                                $"\n- Measurement: {ingredient.Measurement}" +
-                                $"\n- Calories: {ingredient.Calories}" +
-                                $"\n- Food Group: {ingredient.FoodGroup}",
-                                ConsoleCustomization.Colours.Black,
-                                ConsoleCustomization.Colours.White,
-                                true,
-                                false
-                            );
-                        }
-                    }
-
-                    var steps = recipe.GetSteps();
-                    if (steps.Count == 0)
-                    {
-                        ConsoleCustomization.SetColor("There are no steps in the recipe.", Colours.Black, Colours.Red, true, true);
-                        ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Cyan, true, true);
-                        Program.Menu();
-                        return;
-                    }
-
-                    ConsoleCustomization.SetColor("\nSteps: ", Colours.Black, Colours.White, true, false);
-                    for (int i = 0; i < steps.Count; i++)
-                    {
-                        ConsoleCustomization.SetColor($"- Step #{i + 1}: {steps[i]}", Colours.Black, Colours.White, true, false);
-                    }
-
-                    ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Cyan, true, true);
+                    ConsoleCustomization.SetColor($"[{choice}]. Recipe Name: {Recipe.GetName()}\t| Calories: {HelperClass.CalculateTotalCalories(Recipe)}\t| Ingredients amount: {Recipe.GetIngredients().Count}\t| Steps amount: {Recipe.GetSteps().Count}", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, true, true);
                 }
+
+                // Ask the user which recipe number they would like to view
+                ConsoleCustomization.SetColor("Enter the number of the recipe you would like to view: ", Colours.Black, Colours.White, false, true);
+                string? input = Console.ReadLine();
+                while (input == null || !HelperClass.ValidInteger(input) || int.Parse(input) < 1 || int.Parse(input) > recipes.Count)
+                {
+                    ConsoleCustomization.SetColor("Invalid input. Please enter a valid number: ", Colours.Black, Colours.Red, false, true);
+                    input = Console.ReadLine();
+                }
+
+                int index = int.Parse(input) - 1;
+                if (index < 0 || index >= recipes.Count)
+                {
+                    ConsoleCustomization.SetColor("Invalid input. Please enter a valid number: ", Colours.Black, Colours.Red, false, true);
+                    return;
+                }
+
+                Recipe recipe = recipes[index];
+                var recipeName = recipe.GetName();
+                var totalCalories = HelperClass.CalculateTotalCalories(recipe);
+
+                List<Ingredients> ingredients = recipe.GetIngredients();
+
+                ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Cyan, true, true);
+                ConsoleCustomization.SetColor($"Recipe Name: {recipeName}", Colours.Black, Colours.White, true, true);
+
+                int totalCalorie = 0;
+                ConsoleCustomization.SetColor("\nList of Ingredients: ", Colours.Black, Colours.White, true, true);
+                foreach (Ingredients ingredient in ingredients)
+                {
+                    string measurement = UoMConversion.UnitsToName((UnitOfMeasurement)Enum.Parse(typeof(UnitOfMeasurement), ingredient.Measurement), ingredient.Quantity > 1);
+                    ConsoleCustomization.SetColor(
+                        $"\n- Name: {ingredient.Name}" +
+                        $"\n- Quantity and measurement: {ingredient.Quantity} {measurement}" +
+                        $"\n- Calories: {ingredient.Calories}" +
+                        $"\n- Food Group: {ingredient.FoodGroup}",
+                        ConsoleCustomization.Colours.Black,
+                        ConsoleCustomization.Colours.White,
+                        true,
+                        false
+                    );
+
+                    totalCalories += ingredient.Calories;
+
+                    // Check if total calories exceeds the limit
+                    if (totalCalories > 300)
+                    {
+                        // Notify the delegate if total calories exceeds the limit
+                        NotifyTotalCaloriesExceedLimit += NotifyTotalCaloriesExceedLimitHandler;
+                    } else
+                    {
+                        NotifyTotalCaloriesExceedLimit -= NotifyTotalCaloriesExceedLimitHandler;
+                    }
+                }
+            
+                var steps = recipe.GetSteps();
+                if (steps.Count == 0)
+                {
+                    ConsoleCustomization.SetColor("There are no steps in the recipe. Press any key to continue...", Colours.Black, Colours.Red, true, true);
+                    Console.ReadKey();
+                    Console.Clear();
+                    Program.Menu();
+                    return;
+                }
+
+                ConsoleCustomization.SetColor("\nSteps: ", Colours.Black, Colours.White, true, true);
+                for (int i = 0; i < steps.Count; i++)
+                {
+                    ConsoleCustomization.SetColor($"- Step #{i + 1}: {steps[i]}", Colours.Black, Colours.White, true, true);
+                }
+
+                
+                ConsoleCustomization.SetColor("\nTotal calories: " + totalCalories, Colours.Black, Colours.White, true, true);
+                ConsoleCustomization.SetColor("============================================================================", Colours.Black, Colours.Cyan, true, true);
             }
             catch (ArgumentException ex)
             {
@@ -80,9 +109,12 @@ namespace Recipe_App
             {
                 ConsoleCustomization.SetColor("An unexpected error occurred: " + ex.Message, Colours.Red, Colours.White, true, true);
             }
-
+            ConsoleCustomization.SetColor("Press any key to bring up the menu of options...", Colours.Black, Colours.White, false, true);
+            Console.ReadKey();
+            Console.Clear();
             Program.Menu();
         }
+
 
         public static float CalculateTotalCalories(Recipe recipe)
         {
