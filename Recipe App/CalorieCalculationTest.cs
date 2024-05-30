@@ -1,4 +1,5 @@
 ﻿using Recipe_App;
+using System;
 
 namespace Recipe_App
 {
@@ -6,22 +7,48 @@ namespace Recipe_App
     {
         public static void RunTest()
         {
+            // Create a recipe with 3 ingredients
             Recipe testRecipe = new Recipe("Test Recipe");
-            testRecipe.AddIngredient(new Ingredients("Test Ingredient 1", 100, 100, 50, "Grains","grams"));
-            testRecipe.AddIngredient(new Ingredients("Test Ingredient 2", 200, 200, 100, "Protein","grams"));
-            testRecipe.AddIngredient(new Ingredients("Test Ingredient 3", 300, 300, 120, "Vegetables","grams"));
+            testRecipe.AddIngredient(new Ingredients("Ingredient 1", 100, 100, 75, "Starch", "Kilograms"));
+            testRecipe.AddIngredient(new Ingredients("Ingredient 2", 200, 200, 90, "Vegetable or fruit", "Grams"));
+            testRecipe.AddIngredient(new Ingredients("Ingredient 3", 150, 150, 115, "Protein", "grams"));
 
-            float expectedCalories = 270;
-            float actualCalories = HelperClass.CalculateTotalCalories(testRecipe);
+            // Calculate the expected total calories
+            float expectedTotalCalories = 75 + 90 + 115;
 
-            if (expectedCalories == actualCalories)
+            // Calculate the total calories using the helper method
+            float actualTotalCalories = HelperClass.CalculateTotalCalories(testRecipe);
+
+            // Compare the expected and actual total calories
+            if (expectedTotalCalories == actualTotalCalories)
             {
-                ConsoleCustomization.SetColor("Test Passed: The total calories were calculated correctly.", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Green, true, true);
+                Console.WriteLine("Calorie calculation test 1 passed!");
             }
             else
             {
-                ConsoleCustomization.SetColor("Test Failed: The total calories were not calculated correctly.", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Red, true, true);
+                Console.WriteLine("Calorie calculation test 1 failed!");
             }
+
+            // Test case 2: Add another ingredient with different values
+            testRecipe.AddIngredient(new Ingredients("Ingredient 4", 50, 30, 20, "Protein", "Grams"));
+            expectedTotalCalories += 20;
+            actualTotalCalories = HelperClass.CalculateTotalCalories(testRecipe);
+            if (expectedTotalCalories == actualTotalCalories)
+            {
+                Console.WriteLine("Calorie calculation test 2 passed!");
+            }
+            else
+            {
+                Console.WriteLine("Calorie calculation test 2 failed!");
+            }
+
+
+        }
+
+
+        static void Main(String[] args)
+        {
+            RunTest();
         }
     }
 }
