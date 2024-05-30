@@ -61,7 +61,7 @@ namespace Recipe_App
                 // Print the list of ingredients
                 foreach (Ingredients ingredient in ingredients)
                 {
-                    string measurement = UoMConversion.UnitsToName((UnitOfMeasurement)Enum.Parse(typeof(UnitOfMeasurement), ingredient.Measurement), ingredient.Quantity > 1);
+                    string measurement = UoMConversion.UnitsToName((UnitOfMeasurement)Enum.Parse(typeof(UnitOfMeasurement), ingredient.Measurement), ingredient.Quantity <= 0 || ingredient.Quantity > 1);
                     ConsoleCustomization.SetColor(
                         $"\n- Name: {ingredient.Name}" +
                         $"\n- Quantity and measurement: {ingredient.Quantity} {measurement}" +
@@ -70,7 +70,7 @@ namespace Recipe_App
                         ConsoleCustomization.Colours.Black,
                         ConsoleCustomization.Colours.White,
                         true,
-                        false
+                        true
                     );
 
                     //totalCalorie += ingredient.Calories;
@@ -118,15 +118,15 @@ namespace Recipe_App
             // Catch any exceptions and display an error message
             catch (ArgumentException ex)
             {
-                ConsoleCustomization.SetColor("Error: " + ex.Message, ConsoleCustomization.Colours.Red, ConsoleCustomization.Colours.White, true, true);
+                ConsoleCustomization.SetColor("Error: " + ex.Message, ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Red, true, true);
             }
             catch (IndexOutOfRangeException ex)
             {
-                ConsoleCustomization.SetColor("Error: " + ex.Message, ConsoleCustomization.Colours.Red, ConsoleCustomization.Colours.White, true, true);
+                ConsoleCustomization.SetColor("Error: " + ex.Message, ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Red, true, true);
             }
             catch (Exception ex)
-            {
-                ConsoleCustomization.SetColor("An unexpected error occurred: " + ex.Message, ConsoleCustomization.Colours.Red, ConsoleCustomization.Colours.White, true, true);
+            {   
+                ConsoleCustomization.SetColor("An unexpected error occurred: " + ex.Message, ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Red, true, true);
             }
             ConsoleCustomization.SetColor("Press any key to bring up the menu of options...", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.White, false, true);
             Console.ReadKey();

@@ -89,7 +89,8 @@ namespace Recipe_App
             string changed = "";
 
             // Prompt the user to confirm if they want to adjust the recipe.
-            Console.Write("Calories have exceeded 300. Would you like to adjust the recipe?\n1. Yes\n2. No\nEnter your choice: ");
+            ConsoleCustomization.SetColor("Calories have exceeded 300. Would you like to adjust the recipe?\n1. Yes\n2. No\n", ConsoleCustomization.Colours.Black, ConsoleCustomization.Colours.Yellow, false, true);
+            Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
 
             // Validate the user's input.
@@ -101,6 +102,7 @@ namespace Recipe_App
 
             // Parse the user's input into an integer.
             int answer = int.Parse(input);
+            int counter = 0;
 
             // If the user chooses to adjust the recipe, proceed.
             if (answer == 1)
@@ -131,7 +133,14 @@ namespace Recipe_App
                 while (option == null || !HelperClass.ValidInteger(option) || int.Parse(option) > ingredients.Count ||
                        int.Parse(option) < 1)
                 {
-                    Console.Write($"Please enter a valid option between 1 and {ingredients.Count}: ");
+                    if (ingredients.Count == 1)
+                    {
+                        Console.Write($"Please enter a valid option (only 1 ingredient): ");
+                    }
+                    else
+                    {
+                        Console.Write($"Please enter a valid option between 1 and {ingredients.Count}: ");        
+                    }
                     option = Console.ReadLine();
                 }
 
@@ -228,26 +237,13 @@ namespace Recipe_App
                        float.Parse(inputCalories) > 1000)
                 {
                     Console.Write(
-                        $"Please enter a valid calorie count for ingredient {i + 1} that is between 1 and 2000: ");
+                        $"Please enter a valid calorie count for ingredient {i + 1} that is between 1 and 1000: ");
                     inputCalories = Console.ReadLine();
                 }
 
                 // Parse the user's input into a float
                 float calories = float.Parse(inputCalories);
 
-                // Prompt the user to enter the food group for the ingredient
-                // Commented out as it seems to be unused
-                /*Console.WriteLine();
-                Console.WriteLine($"Enter the food group for ingredient {ingredientName}: ");
-                Console.WriteLine(
-                    "1. Starch" +
-                    "\n2. Vegetables and fruits" +
-                    "\n3. Dry beans, peas, lentils or soya" +
-                    "\n4. Chicken, fish, meat or egg" +
-                    "\n5. Milk or dairy products" +
-                    "\n6. Fats or oil" +
-                    "\n7. Water");
-                Console.Write("Enter a choice: ");*/
                 String foodGroup = GetIngredientFoodGroup(ingredientName);
 
                 // Create a new Ingredients object with the user's input
@@ -311,9 +307,10 @@ namespace Recipe_App
 
             // Clear the console, display a success message, and wait for the user to press a key before returning to the menu
             Console.WriteLine();
-            ConsoleCustomization.SetColor("Recipe successfully created!\nPress any key to continue...",
+            ConsoleCustomization.SetColor("Recipe successfully created!\n",
                 ConsoleCustomization.Colours.Black,
                 ConsoleCustomization.Colours.Green, false, true);
+            Console.Write("Press any key to continue... ");
             Console.ReadKey();
             Console.Clear();
             Program.Menu();
