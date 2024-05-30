@@ -8,4 +8,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="4.2.0-alpha.0.20" />
+  </ItemGroup>
+
 </Project>

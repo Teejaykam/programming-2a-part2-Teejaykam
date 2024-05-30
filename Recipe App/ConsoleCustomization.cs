@@ -84,13 +84,13 @@ namespace Recipe_App
         /// </summary>
         private static readonly Dictionary<Colours, ConsoleColor> ColorMap = new Dictionary<Colours, ConsoleColor>
         {
-            { Colours.Red, ConsoleColor.Red },
-            { Colours.Green, ConsoleColor.Green },
-            { Colours.Blue, ConsoleColor.Blue },
-            { Colours.Yellow, ConsoleColor.Yellow },
-            { Colours.Cyan, ConsoleColor.Cyan },
-            { Colours.White, ConsoleColor.White },
-            { Colours.Black, ConsoleColor.Black }
+            { ConsoleCustomization.Colours.Red, ConsoleColor.Red },
+            { ConsoleCustomization.Colours.Green, ConsoleColor.Green },
+            { ConsoleCustomization.Colours.Blue, ConsoleColor.Blue },
+            { ConsoleCustomization.Colours.Yellow, ConsoleColor.Yellow },
+            { ConsoleCustomization.Colours.Cyan, ConsoleColor.Cyan },
+            { ConsoleCustomization.Colours.White, ConsoleColor.White },
+            { ConsoleCustomization.Colours.Black, ConsoleColor.Black }
         };
     }
 }
